@@ -1,21 +1,17 @@
-from match import Match
-from datetime import datetime
+from model.match import Match
 
 class Round:
-    def __init__(self, match_name, round_name, begin_datetime, end_datetime):
-        self.match_name = Match.match_name()
-        self.round_name = round_name()
-        self.begin_datetime = begin_datetime()
-        self.end_datetime = end_datetime()
+    def __init__(self, number):
+        self.number = number
+        self.matches = []
+        
+    def add_match(self, player1, player2): #1
+        match = Match(player1, player2)
+        self.matches.append(match)
+        
+    def add_match2(self, match): #2
+        self.matches.append(match)
 
-    def round_name(self):
-        pass
-
-    def begin_datetime(self):
-        pass
-
-    def end_datetime(self):
-        pass
 
     
 

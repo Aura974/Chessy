@@ -1,18 +1,18 @@
 class Player:
-    def __init__(self, name, surname):
+    def __init__(self, name, elo):
         self.name = name
-        self.surname = surname
-        self.gender = None
-        self.birth_date = None
-        self.rank = None
+        # self.surname = surname
+        # self.gender = None
+        # self.birth_date = None
+        self.elo = elo
+        
+    def __str__(self):
+        return self.name
 
-    def set_gender(self):
+    def set_gender():
         pass
 
-    def set_birth_date(self):
-        pass
-
-    def rank(self):
+    def set_birth_date():
         pass
 
 
