@@ -5,6 +5,7 @@ class Player:
         # self.gender = None
         # self.birth_date = None
         self.elo = elo
+        self.score = 0
         
     def __str__(self):
         return self.name

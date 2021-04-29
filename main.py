@@ -1,4 +1,4 @@
-from controller.tournament import TournamentController
+from controller.tournament_controller import TournamentController
 
 
 if __name__ == "__main__":

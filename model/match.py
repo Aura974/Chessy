@@ -4,9 +4,6 @@ class Match:
         self.player2 = player2
         self.score_player1 = 0
         self.score_player2 = 0
-        
-#Victoire 1 points 0 pour l'autre
-#Match nul 0.5 pour les deux
 
-        
-
+# Victoire 1 points 0 pour l'autre
+# Match nul 0.5 pour les deux
