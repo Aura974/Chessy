@@ -1,3 +1,6 @@
+from model.player import Player
+
+
 class Tournament:
     def __init__(self, name, time_control):
         self.name = name
