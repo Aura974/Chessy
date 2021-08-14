@@ -6,3 +6,4 @@ class PlayerController:
     def __init__(self):
         name, elo = get_player_info()
         self.player = Player(name, elo, score=0)
+

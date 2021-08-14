@@ -1,0 +1,296 @@
+{
+    "tournament_serializer": {
+        "1": {
+            "name": "caca",
+            "time_control": "Blitz",
+            "players": [
+                {
+                    "name": "Ranga",
+                    "elo": 34,
+                    "score": 3.0
+                },
+                {
+                    "name": "Gr\u00e9gory",
+                    "elo": 12,
+                    "score": 3.0
+                },
+                {
+                    "name": "Jean-Marie",
+                    "elo": 3,
+                    "score": 2.0
+                },
+                {
+                    "name": "Steve",
+                    "elo": 100,
+                    "score": 2.5
+                },
+                {
+                    "name": "Aura",
+                    "elo": 18,
+                    "score": 2.5
+                },
+                {
+                    "name": "M\u00e9lanie",
+                    "elo": 27,
+                    "score": 2.0
+                },
+                {
+                    "name": "Vanessa",
+                    "elo": 7,
+                    "score": 3.0
+                },
+                {
+                    "name": "Anonymous",
+                    "elo": 57,
+                    "score": 2.0
+                }
+            ],
+            "rounds": [
+                {
+                    "number": "1",
+                    "matches": [
+                        {
+                            "player1": {
+                                "name": "Vanessa",
+                                "elo": 7,
+                                "score": 3.0
+                            },
+                            "player2": {
+                                "name": "Steve",
+                                "elo": 100,
+                                "score": 2.5
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Gr\u00e9gory",
+                                "elo": 12,
+                                "score": 3.0
+                            },
+                            "player2": {
+                                "name": "Jean-Marie",
+                                "elo": 3,
+                                "score": 2.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Ranga",
+                                "elo": 34,
+                                "score": 3.0
+                            },
+                            "player2": {
+                                "name": "M\u00e9lanie",
+                                "elo": 27,
+                                "score": 2.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Aura",
+                                "elo": 18,
+                                "score": 2.5
+                            },
+                            "player2": {
+                                "name": "Anonymous",
+                                "elo": 57,
+                                "score": 2.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        }
+                    ]
+                },
+                {
+                    "number": "2",
+                    "matches": [
+                        {
+                            "player1": {
+                                "name": "Vanessa",
+                                "elo": 7,
+                                "score": 3.0
+                            },
+                            "player2": {
+                                "name": "Gr\u00e9gory",
+                                "elo": 12,
+                                "score": 3.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Ranga",
+                                "elo": 34,
+                                "score": 3.0
+                            },
+                            "player2": {
+                                "name": "Aura",
+                                "elo": 18,
+                                "score": 2.5
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Steve",
+                                "elo": 100,
+                                "score": 2.5
+                            },
+                            "player2": {
+                                "name": "Jean-Marie",
+                                "elo": 3,
+                                "score": 2.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "M\u00e9lanie",
+                                "elo": 27,
+                                "score": 2.0
+                            },
+                            "player2": {
+                                "name": "Anonymous",
+                                "elo": 57,
+                                "score": 2.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        }
+                    ]
+                },
+                {
+                    "number": "3",
+                    "matches": [
+                        {
+                            "player1": {
+                                "name": "Vanessa",
+                                "elo": 7,
+                                "score": 3.0
+                            },
+                            "player2": {
+                                "name": "Ranga",
+                                "elo": 34,
+                                "score": 3.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Gr\u00e9gory",
+                                "elo": 12,
+                                "score": 3.0
+                            },
+                            "player2": {
+                                "name": "Aura",
+                                "elo": 18,
+                                "score": 2.5
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Steve",
+                                "elo": 100,
+                                "score": 2.5
+                            },
+                            "player2": {
+                                "name": "M\u00e9lanie",
+                                "elo": 27,
+                                "score": 2.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Jean-Marie",
+                                "elo": 3,
+                                "score": 2.0
+                            },
+                            "player2": {
+                                "name": "Anonymous",
+                                "elo": 57,
+                                "score": 2.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        }
+                    ]
+                },
+                {
+                    "number": "4",
+                    "matches": [
+                        {
+                            "player1": {
+                                "name": "Vanessa",
+                                "elo": 7,
+                                "score": 3.0
+                            },
+                            "player2": {
+                                "name": "Aura",
+                                "elo": 18,
+                                "score": 2.5
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Gr\u00e9gory",
+                                "elo": 12,
+                                "score": 3.0
+                            },
+                            "player2": {
+                                "name": "Ranga",
+                                "elo": 34,
+                                "score": 3.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Steve",
+                                "elo": 100,
+                                "score": 2.5
+                            },
+                            "player2": {
+                                "name": "Anonymous",
+                                "elo": 57,
+                                "score": 2.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        },
+                        {
+                            "player1": {
+                                "name": "Jean-Marie",
+                                "elo": 3,
+                                "score": 2.0
+                            },
+                            "player2": {
+                                "name": "M\u00e9lanie",
+                                "elo": 27,
+                                "score": 2.0
+                            },
+                            "score_player1": 0.5,
+                            "score_player2": 0.5
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

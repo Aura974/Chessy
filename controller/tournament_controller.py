@@ -1,10 +1,11 @@
-from model.tournament import Tournament
-from model.round import Round
 from model.player import Player
-from view.player_view import get_player_info, print_player, print_match
-from view.round_view import enter_score, print_match_result, print_final_score
-from view.tournament_view import (
-    get_tournament_name, get_tournament_time_control)
+from model.round import Round
+from model.tournament import Tournament
+from view.player_view import get_player_info, print_match, print_player
+from view.round_view import enter_score, print_final_score, print_match_result
+from view.tournament_view import (get_tournament_name,
+                                  get_tournament_time_control)
+from tinydb import TinyDB, Query, where
 
 players = [Player("Ranga", 34, 1), Player("Grégory", 12, 1),
            Player("Jean-Marie", 3, 0), Player("Steve", 100, 0.5),
@@ -14,25 +15,68 @@ players = [Player("Ranga", 34, 1), Player("Grégory", 12, 1),
 
 class TournamentController:
     def __init__(self):
+        self.tournament = None
+        self.db = TinyDB("tournament_serializer.json", indent=4)
+        self.tournament_serializer = self.db.table("tournament_serializer")
+
+    def new_tournament(self):
         name = self.get_and_check_name()
         time_control = self.get_and_check_time_control()
         self.tournament = Tournament(name, time_control)
-        """for i in range(4):
-            # Créer une controleur de player
-            # appeler la méthode qui permet de créer un player
-            # retourner le player terminer
-            # ensuite tu l'ajoute à la liste "
-            # self.tournament.add_player(player)"
-            name, elo = get_player_info()
-            player = Player(name, elo)
-            self.tournament.add_player(player)"""
         self.tournament.players = players
+
+    def reload_tournament(self):
+        db = TinyDB("tournament_serializer.json", indent=4)
+        tournaments = Query()
+        tournament = db.table('tournament_serializer')
+        db_tournament = tournament.search(tournaments.name == "Abba")
+        reloaded_tournament = db_tournament[0]
+        self.tournament = None
+        self.deserializer(reloaded_tournament)
+        number_round_to_run = 4 - len(reloaded_tournament["rounds"])
+        print(number_round_to_run)
+
+        if number_round_to_run == 4:
+            pass
+            # run_first_round()
+        else:
+            for i in range(len(
+                    reloaded_tournament["rounds"])
+                    + 1, 5):
+                pass
+                # run_round(i)
+
+    def deserializer(self, reloaded_tournament):
+        self.tournament = Tournament(
+            reloaded_tournament["name"],
+            reloaded_tournament["time_control"])
+        self.tournament.players = []
+
+        for player in reloaded_tournament["players"]:
+            reload_player = Player(player["name"],
+                                   player["elo"],
+                                   player["score"])
+            self.tournament.add_player(reload_player)
+
+        for round in reloaded_tournament["rounds"]:
+            reload_round = Round(round["number"])
+            for match in round["matches"]:
+                player1 = Player(match["player1"]["name"],
+                                 match["player1"]["elo"],
+                                 match["player1"]["score"])
+                player2 = Player(match["player2"]["name"],
+                                 match["player1"]["elo"],
+                                 match["player1"]["score"])
+
+                reload_match = Match(player1, player2, match["score_player1"], match["score_player2"])
+
+                reload_round.add_reload_match(reload_match)
+            self.tournament.add_round(reload_round)
 
     def run_first_round(self):
         # algorithme pour créer les premiers rounds
 
         match_number = 1
-        # self.tournament.players.sort(key=lambda x: x.elo)
 
         round1 = Round("1")
         self.tournament.add_round(round1)
@@ -59,6 +103,7 @@ class TournamentController:
             print_match_result(match)
             self.update_tournament_score(match)
         print_final_score(self.tournament.players, round1.number)
+        self.tournament_serializer.insert(self.tournament.serializer())
 
     def run_round(self, round_number):
         match_number = 1
@@ -100,6 +145,7 @@ class TournamentController:
                 print_match_result(match)
                 self.update_tournament_score(match)
         print_final_score(self.tournament.players, round.number)
+        self.tournament_serializer.update(self.tournament.serializer())
 
     def get_players(self):
         player_for_round = list()
@@ -128,11 +174,20 @@ class TournamentController:
     def get_and_check_time_control(self):
         time_control = get_tournament_time_control()
         time_control = time_control.lower()
-        while (time_control != "bullet" and time_control != "blitz"
-                and time_control != "rapide"):
-            print("Le format du contrôle du temps est incorrect")
+        while (time_control != "b" and time_control != "bz"
+                and time_control != "r"):
+            print("\033[38;5;1;88m"
+                  "Le format du contrôle du temps est incorrect\033[0m")
             time_control = get_tournament_time_control()
             time_control = time_control.lower()
+        else:
+            if time_control == "b":
+                time_control = "Bullet"
+            elif time_control == "bz":
+                time_control = "Blitz"
+            elif time_control == "r":
+                time_control = "Rapide"
+        return time_control
 
     def update_tournament_score(self, match):
         match.player1.score += match.score_player1
