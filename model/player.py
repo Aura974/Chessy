@@ -10,11 +10,3 @@ class Player:
 
     def __str__(self):
         return self.name
-
-    def serializer(self):
-        self.data = {"name": self.name, "elo": self.elo, "score": self.score}
-        return self.data
-
-    def serializer_player(self):
-        self.data = {"name": self.name, "elo": self.elo}
-        return self.data

@@ -1,7 +1,7 @@
 {
-    "tournament_serializer": {
+    "tournament_data": {
         "1": {
-            "name": "caca",
+            "name": "caa",
             "time_control": "Blitz",
             "players": [
                 {
@@ -47,7 +47,7 @@
             ],
             "rounds": [
                 {
-                    "number": "1",
+                    "round_number": "1",
                     "matches": [
                         {
                             "player1": {
@@ -108,7 +108,7 @@
                     ]
                 },
                 {
-                    "number": "2",
+                    "round_number": "2",
                     "matches": [
                         {
                             "player1": {
@@ -169,7 +169,7 @@
                     ]
                 },
                 {
-                    "number": "3",
+                    "round_number": "3",
                     "matches": [
                         {
                             "player1": {
@@ -230,7 +230,7 @@
                     ]
                 },
                 {
-                    "number": "4",
+                    "round_number": "4",
                     "matches": [
                         {
                             "player1": {

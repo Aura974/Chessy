@@ -5,6 +5,7 @@ from view.player_view import get_player_info, print_match, print_player
 from view.round_view import enter_score, print_final_score, print_match_result
 from view.tournament_view import (get_tournament_name,
                                   get_tournament_time_control)
+from controller.serializer_controller import tournament_serializer
 from tinydb import TinyDB, Query, where
 
 players = [Player("Ranga", 34, 1), Player("Grégory", 12, 1),
@@ -16,8 +17,8 @@ players = [Player("Ranga", 34, 1), Player("Grégory", 12, 1),
 class TournamentController:
     def __init__(self):
         self.tournament = None
-        self.db = TinyDB("tournament_serializer.json", indent=4)
-        self.tournament_serializer = self.db.table("tournament_serializer")
+        self.db = TinyDB("tournament_data.json", indent=4)
+        self.tournament_data = self.db.table("tournament_data")
 
     def new_tournament(self):
         name = self.get_and_check_name()
@@ -26,9 +27,9 @@ class TournamentController:
         self.tournament.players = players
 
     def reload_tournament(self):
-        db = TinyDB("tournament_serializer.json", indent=4)
+        db = TinyDB("tournament_data.json", indent=4)
         tournaments = Query()
-        tournament = db.table('tournament_serializer')
+        tournament = db.table('tournament_data')
         db_tournament = tournament.search(tournaments.name == "Abba")
         reloaded_tournament = db_tournament[0]
         self.tournament = None
@@ -59,7 +60,7 @@ class TournamentController:
             self.tournament.add_player(reload_player)
 
         for round in reloaded_tournament["rounds"]:
-            reload_round = Round(round["number"])
+            reload_round = Round(round["round_number"])
             for match in round["matches"]:
                 player1 = Player(match["player1"]["name"],
                                  match["player1"]["elo"],
@@ -102,8 +103,8 @@ class TournamentController:
             match_number += 1
             print_match_result(match)
             self.update_tournament_score(match)
-        print_final_score(self.tournament.players, round1.number)
-        self.tournament_serializer.insert(self.tournament.serializer())
+        print_final_score(self.tournament.players, round1.round_number)
+        self.tournament_data.insert(tournament_serializer(self.tournament))
 
     def run_round(self, round_number):
         match_number = 1
@@ -144,8 +145,8 @@ class TournamentController:
                 match_number += 1
                 print_match_result(match)
                 self.update_tournament_score(match)
-        print_final_score(self.tournament.players, round.number)
-        self.tournament_serializer.update(self.tournament.serializer())
+        print_final_score(self.tournament.players, round.round_number)
+        self.tournament_data.update(tournament_serializer(self.tournament))
 
     def get_players(self):
         player_for_round = list()

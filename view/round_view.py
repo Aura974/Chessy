@@ -18,10 +18,10 @@ def print_match_result(match):
     os.system("cls")
 
 
-def print_final_score(players, number):
+def print_final_score(players, round_number):
     os.system("cls")
     print("-----------------------------------")
-    print(f"SCORE FINAL -- TOUR #{number}")
+    print(f"SCORE FINAL -- TOUR #{round_number}")
     print("-----------------------------------")
     for player in players:
         print(f"{player.name} : {player.score}")
