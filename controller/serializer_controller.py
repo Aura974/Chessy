@@ -1,5 +1,3 @@
-from tinydb import TinyDB
-
 
 def player_serializer(player):
     data = {"name": player.name, "elo": player.elo, "score": player.score}

@@ -1,0 +1,36 @@
+{
+    "players_data": {
+        "1": {
+            "name": "Ranga",
+            "elo": "34"
+        },
+        "2": {
+            "name": "Gr\u00e9gory",
+            "elo": "12"
+        },
+        "3": {
+            "name": "Jean-Marie",
+            "elo": "3"
+        },
+        "4": {
+            "name": "Steve",
+            "elo": "100"
+        },
+        "5": {
+            "name": "Aura",
+            "elo": "18"
+        },
+        "6": {
+            "name": "M\u00e9lanie",
+            "elo": "27"
+        },
+        "7": {
+            "name": "Vanessa",
+            "elo": "7"
+        },
+        "8": {
+            "name": "Anonymous",
+            "elo": "57"
+        }
+    }
+}

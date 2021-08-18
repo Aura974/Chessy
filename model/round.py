@@ -9,3 +9,6 @@ class Round:
     def add_match(self, player1, player2):
         match = Match(player1, player2)
         self.matches.append(match)
+
+    def add_reload_match(self, match):
+        self.matches.append(match)
