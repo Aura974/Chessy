@@ -25,11 +25,14 @@ class TournamentController:
         name = self.get_and_check_name()
         time_control = self.get_and_check_time_control()
         self.tournament = Tournament(name, time_control)
+        self.tournament.players = list()
         for i in range(1, 9):
-            player = PlayerController()
+            playerController = PlayerController()
             print(f"Joueur {i} : ")
-            player = player.handle_choice()
+            player = playerController.handle_choice()
             self.tournament.add_player(player)
+            print(self.tournament.players)
+        self.run_first_round()
 
     def reload_tournament(self):
         db = TinyDB("tournament_data.json", indent=4)
@@ -38,7 +41,7 @@ class TournamentController:
         db_tournament = tournament.search(tournaments.name == "Test")
         reloaded_tournament = db_tournament[0]
         self.tournament = None
-        self.deserializer(reloaded_tournament)
+        self.tournament_deserializer(reloaded_tournament)
         number_round_to_run = 4 - len(reloaded_tournament["rounds"])
         print(number_round_to_run)
 
@@ -48,7 +51,7 @@ class TournamentController:
             for i in range(len(reloaded_tournament["rounds"]) + 1, 5):
                 self.run_round(i)
 
-    def deserializer(self, reloaded_tournament):
+    def tournament_deserializer(self, reloaded_tournament):
         self.tournament = Tournament(
             reloaded_tournament["name"],
             reloaded_tournament["time_control"])

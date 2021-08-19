@@ -1,3 +1,5 @@
+from model.player import Player
+
 
 def player_serializer(player):
     data = {"name": player.name, "elo": player.elo, "score": player.score}
@@ -9,6 +11,13 @@ def player_list_serializer(player):
     # "surname": Player.surname, "birth_date": Player.birth_date,
     # "gender": Player.gender
     return data
+
+
+def player_deserializer(reloaded_player):
+    player = Player(reloaded_player["name"],
+                    reloaded_player["elo"],
+                    score=0)
+    return player
 
 
 def match_serializer(match):

@@ -7,6 +7,12 @@ def get_player_info():
     return name, elo
 
 
+def get_existing_player():
+    name = input("Entrez le prénom du joueur : ")
+    elo = input("Entrez le classement Elo du joueur : ")
+    return name, elo
+
+
 def players_choice():
     choice = input("Nouveau joueur : \033[1m1\033[0m / "
                    "Joueur existant : \033[1m2\033[0m : ")
