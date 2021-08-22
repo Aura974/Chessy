@@ -1,6 +1,7 @@
 class Tournament:
     def __init__(self, name, time_control):
         self.name = name
+        # self.place = place
         self.time_control = time_control
         self.players = list()
         self.rounds = list()

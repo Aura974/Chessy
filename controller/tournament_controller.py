@@ -1,18 +1,13 @@
-from model.player import Player
-from model.round import Round, Match
+from model.round import Round
 from model.tournament import Tournament
 from view.player_view import print_match, print_player
 from view.round_view import enter_score, print_final_score, print_match_result
 from view.tournament_view import (get_tournament_name,
-                                  get_tournament_time_control)
-from controller.serializer_controller import tournament_serializer
+                                  get_tournament_time_control,
+                                  get_existing_tournament)
+from controller.serializer_controller import tournament_serializer, tournament_deserializer
 from controller.player_controller import PlayerController
 from tinydb import TinyDB, Query
-
-# players = [Player("Ranga", 34, 1), Player("Grégory", 12, 1),
-#            Player("Jean-Marie", 3, 0), Player("Steve", 100, 0.5),
-#            Player("Aura", 18, 0.5), Player("Mélanie", 27, 0),
-#            Player("Vanessa", 7, 1), Player("Anonymous", 57, 0)]
 
 
 class TournamentController:
@@ -22,61 +17,58 @@ class TournamentController:
         self.tournament_data = self.db.table("tournament_data")
 
     def new_tournament(self):
+        tournaments = Query()
         name = self.get_and_check_name()
         time_control = self.get_and_check_time_control()
         self.tournament = Tournament(name, time_control)
         self.tournament.players = list()
+        self.tournament_data.insert(tournament_serializer(self.tournament))
+        tournament_get = self.tournament_data.get(tournaments.name == self.tournament.name)
+        tournament_id = tournament_get.doc_id
         for i in range(1, 9):
             playerController = PlayerController()
             print(f"Joueur {i} : ")
             player = playerController.handle_choice()
             self.tournament.add_player(player)
-            print(self.tournament.players)
+            self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
         self.run_first_round()
+        for round_number in range(2, 5):
+            self.run_round(round_number)
 
     def reload_tournament(self):
-        db = TinyDB("tournament_data.json", indent=4)
+        self.db = TinyDB("tournament_data.json", indent=4)
         tournaments = Query()
-        tournament = db.table('tournament_data')
-        db_tournament = tournament.search(tournaments.name == "Test")
+        self.tournament_data = self.db.table('tournament_data')
+
+        existing_tournament = get_existing_tournament()
+        db_tournament = self.tournament_data.search(
+            (tournaments.name == existing_tournament[0]) &
+            (tournaments.time_control == existing_tournament[1]))
         reloaded_tournament = db_tournament[0]
         self.tournament = None
-        self.tournament_deserializer(reloaded_tournament)
+        self.tournament = tournament_deserializer(reloaded_tournament)
+
         number_round_to_run = 4 - len(reloaded_tournament["rounds"])
-        print(number_round_to_run)
+        print(f"Nombre de tours restant : {number_round_to_run}")
+
+        tournament_get = self.tournament_data.get(tournaments.name == self.tournament.name)
+        tournament_id = tournament_get.doc_id
+
+        nb_of_players = len(reloaded_tournament["players"])
+
+        if nb_of_players < 8:
+            for i in range(1, (9 - nb_of_players)):
+                playerController = PlayerController()
+                print(f"Joueur {i + nb_of_players} : ")
+                player = playerController.handle_choice()
+                self.tournament.add_player(player)
+                self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
 
         if number_round_to_run == 4:
             self.run_first_round()
         else:
             for i in range(len(reloaded_tournament["rounds"]) + 1, 5):
                 self.run_round(i)
-
-    def tournament_deserializer(self, reloaded_tournament):
-        self.tournament = Tournament(
-            reloaded_tournament["name"],
-            reloaded_tournament["time_control"])
-        self.tournament.players = list()
-
-        for player in reloaded_tournament["players"]:
-            reload_player = Player(player["name"],
-                                   player["elo"],
-                                   player["score"])
-            self.tournament.add_player(reload_player)
-
-        for round in reloaded_tournament["rounds"]:
-            reload_round = Round(round["round_number"])
-            for match in round["matches"]:
-                player1 = Player(match["player1"]["name"],
-                                 match["player1"]["elo"],
-                                 match["player1"]["score"])
-                player2 = Player(match["player2"]["name"],
-                                 match["player1"]["elo"],
-                                 match["player1"]["score"])
-
-                reload_match = Match(player1, player2)
-
-                reload_round.add_reload_match(reload_match)
-            self.tournament.add_round(reload_round)
 
     def run_first_round(self):
         # algorithme pour créer les premiers rounds
@@ -92,8 +84,7 @@ class TournamentController:
         for i in range(4):
             round1.add_match(
                 player_for_round[i],
-                player_for_round[i + 4]
-                            )
+                player_for_round[i + 4])
 
         for match in round1.matches:
             match.player1.opponent.append(match.player2.elo)
@@ -108,7 +99,7 @@ class TournamentController:
             print_match_result(match)
             self.update_tournament_score(match)
         print_final_score(self.tournament.players, round1.round_number)
-        self.tournament_data.insert(tournament_serializer(self.tournament))
+        self.tournament_data.update(tournament_serializer(self.tournament))
 
     def run_round(self, round_number):
         match_number = 1

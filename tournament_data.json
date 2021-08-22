@@ -1,0 +1,45 @@
+{
+    "tournament_data": {
+        "1": {
+            "name": "Test 1",
+            "time_control": "Rapide",
+            "players": [
+                {
+                    "name": "Aura",
+                    "elo": 18,
+                    "score": 0
+                }
+            ],
+            "rounds": []
+        },
+        "2": {
+            "name": "Test 2",
+            "time_control": "Blitz",
+            "players": [
+                {
+                    "name": "Aura",
+                    "elo": 18,
+                    "score": 0
+                },
+                {
+                    "name": "Ranga",
+                    "elo": 34,
+                    "score": 0
+                }
+            ],
+            "rounds": []
+        },
+        "3": {
+            "name": "Test 3",
+            "time_control": "Bullet",
+            "players": [
+                {
+                    "name": "Aura",
+                    "elo": 18,
+                    "score": 0
+                }
+            ],
+            "rounds": []
+        }
+    }
+}

@@ -3,13 +3,17 @@ import os
 
 def get_player_info():
     name = input("Entrez le prénom du joueur : ")
-    elo = input("Entrez le classement Elo du joueur : ")
+    # surname = input("Entrez le nom de famille du joueur : ")
+    # birth_date = input("Entrez la date de naissance du joueur : ")
+    # gender = input("Entrez le sexe du joueur (F/M) : ")
+    elo = int(input("Entrez le classement Elo du joueur : "))
     return name, elo
 
 
 def get_existing_player():
     name = input("Entrez le prénom du joueur : ")
-    elo = input("Entrez le classement Elo du joueur : ")
+    # surname = input("Entrez le nom de famille du joueur : ")
+    elo = int(input("Entrez le classement Elo du joueur : "))
     return name, elo
 
 
