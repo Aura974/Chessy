@@ -1,9 +1,14 @@
+from utils.checks import (is_tournament_name_valid,
+                          is_place_valid, is_time_control_valid,
+                          time_control_def, error_message)
 from model.round import Round
 from model.tournament import Tournament
 from view.player_view import print_match, print_player
 from view.round_view import enter_score, print_final_score, print_match_result
 from view.tournament_view import (get_tournament_name,
                                   get_tournament_time_control,
+                                  get_tournament_place,
+                                  get_tournament_details,
                                   get_existing_tournament)
 from controller.serializer_controller import tournament_serializer, tournament_deserializer
 from controller.player_controller import PlayerController
@@ -19,11 +24,15 @@ class TournamentController:
     def new_tournament(self):
         tournaments = Query()
         name = self.get_and_check_name()
+        place = self.get_and_check_place()
         time_control = self.get_and_check_time_control()
-        self.tournament = Tournament(name, time_control)
+        details = get_tournament_details()
+        self.tournament = Tournament(name, place, time_control, details)
         self.tournament.players = list()
         self.tournament_data.insert(tournament_serializer(self.tournament))
-        tournament_get = self.tournament_data.get(tournaments.name == self.tournament.name)
+        tournament_get = self.tournament_data.get(
+            (tournaments.name == self.tournament.name) &
+            (tournaments.place == self.tournament.place))
         tournament_id = tournament_get.doc_id
         for i in range(1, 9):
             playerController = PlayerController()
@@ -41,10 +50,19 @@ class TournamentController:
         self.tournament_data = self.db.table('tournament_data')
 
         existing_tournament = get_existing_tournament()
-        db_tournament = self.tournament_data.search(
-            (tournaments.name == existing_tournament[0]) &
-            (tournaments.time_control == existing_tournament[1]))
-        reloaded_tournament = db_tournament[0]
+        while True:
+            try:
+                db_tournament = self.tournament_data.search(
+                    (tournaments.name == existing_tournament[0]) &
+                    (tournaments.place == existing_tournament[1]) &
+                    (tournaments.date == existing_tournament[2]) &
+                    (tournaments.time_control == existing_tournament[3]))
+                reloaded_tournament = db_tournament[0]
+                break
+            except IndexError:
+                error_message("Tournoi non trouvé")
+                existing_tournament = get_existing_tournament()
+
         self.tournament = None
         self.tournament = tournament_deserializer(reloaded_tournament)
 
@@ -91,7 +109,7 @@ class TournamentController:
             match.player2.opponent.append(match.player1.elo)
 
         for match in self.tournament.rounds[0].matches:
-            print(f"\nTOUR #1 - MATCH #{match_number}")
+            print(f"\nROUND #1 - MATCH #{match_number}")
             print_match(match)
             match.score_player1, match.score_player2 = self.handle_score()
             print(f"\nRÉSULTAT DU MATCH #{match_number}")
@@ -133,7 +151,7 @@ class TournamentController:
 
         for i in range(1, 2):
             for match in self.tournament.rounds[round_number-1].matches:
-                print(f"\nTOUR #{round_number} - MATCH #{match_number}")
+                print(f"\nROUND #{round_number} - MATCH #{match_number}")
                 print_match(match)
                 match.score_player1, match.score_player2 = self.handle_score()
                 print(f"\nRÉSULTAT DU MATCH #{match_number}")
@@ -162,27 +180,28 @@ class TournamentController:
 
     def get_and_check_name(self):
         name = get_tournament_name()
-        while not any(x.isalpha() or x.isspace() for x in name):
-            print("Le format du nom est incorrect")
+        name = name.split().capitalize()
+        while not is_tournament_name_valid(name):
+            error_message("Le format du nom est incorrect")
             name = get_tournament_name()
         return name
+
+    def get_and_check_place():
+        place = get_tournament_place()
+        while not is_place_valid(place):
+            error_message("Le format du lieu est incorrect")
+            place = get_tournament_place()
+        return place
 
     def get_and_check_time_control(self):
         time_control = get_tournament_time_control()
         time_control = time_control.lower()
-        while (time_control != "b" and time_control != "bz"
-                and time_control != "r"):
-            print("\033[38;5;1;88m"
-                  "Le format du contrôle du temps est incorrect\033[0m")
+        while is_time_control_valid(time_control):
+            error_message("\033[38;5;1;88m Le format du contrôle du temps est incorrect\033[0m")
             time_control = get_tournament_time_control()
             time_control = time_control.lower()
         else:
-            if time_control == "b":
-                time_control = "Bullet"
-            elif time_control == "bz":
-                time_control = "Blitz"
-            elif time_control == "r":
-                time_control = "Rapide"
+            time_control = time_control_def(time_control)
         return time_control
 
     def update_tournament_score(self, match):

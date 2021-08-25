@@ -5,23 +5,38 @@ from model.match import Match
 
 
 def player_serializer(player):
-    data = {"name": player.name,  "elo": player.elo, "score": player.score}
-    # "surname": Player.surname
+    data = {"name": player.name,
+            "surname": player.surname,
+            "elo": player.elo,
+            "score": player.score}
     return data
 
 
 def player_list_serializer(player):
-    data = {"name": player.name, "elo": player.elo}
-    # "surname": Player.surname, "birth_date": Player.birth_date,
-    # "gender": Player.gender
+    data = {"name": player.name,
+            "surname": player.surname,
+            "elo": player.elo,
+            "birthday": player.birth_date,
+            "gender": player.gender,
+            "score": player.score}
     return data
+
+
+def player_list_deserializer(reloaded_player):
+    player = Player(reloaded_player["name"],
+                    reloaded_player["surname"],
+                    reloaded_player["elo"],
+                    reloaded_player["birthday"],
+                    reloaded_player["gender"],
+                    score=0)
+    return player
 
 
 def player_deserializer(reloaded_player):
     player = Player(reloaded_player["name"],
+                    reloaded_player["surname"],
                     reloaded_player["elo"],
-                    # reloaded_player["surname"],
-                    score=0)
+                    reloaded_player["score"])
     return player
 
 
@@ -39,9 +54,21 @@ def round_serializer(round):
     return data
 
 
+def round_deserializer(reloaded_round):
+    round = Round(reloaded_round["round_number"])
+    for match in reloaded_round["matches"]:
+        player1 = player_deserializer(match["player1"])
+        player2 = player_deserializer(match["player2"])
+        reload_match = Match(player1, player2)
+        round.add_reload_match(reload_match)
+    return round
+
+
 def tournament_serializer(tournament):
     data = {"name": tournament.name,
+            "place": tournament.place,
             "time_control": tournament.time_control,
+            "details": tournament.details,
             "players": [player_serializer(player)
                         for player in tournament.players],
             "rounds": [round_serializer(round) for round in tournament.rounds]}
@@ -50,26 +77,18 @@ def tournament_serializer(tournament):
 
 def tournament_deserializer(reloaded_tournament):
     tournament = Tournament(reloaded_tournament["name"],
-                            reloaded_tournament["time_control"])
+                            reloaded_tournament["place"],
+                            reloaded_tournament["date"],
+                            reloaded_tournament["time_control"],
+                            reloaded_tournament["details"])
     tournament.players = list()
+    tournament.rounds = list()
 
     for player in reloaded_tournament["players"]:
-        reload_player = Player(player["name"],
-                               player["elo"],
-                               player["score"])
-        tournament.add_player(reload_player)
+        player = player_deserializer(player)
+        tournament.add_player(player)
 
     for round in reloaded_tournament["rounds"]:
-        reload_round = Round(round["round_number"])
-        for match in round["matches"]:
-            player1 = Player(match["player1"]["name"],
-                             match["player1"]["elo"],
-                             match["player1"]["score"])
-            player2 = Player(match["player2"]["name"],
-                             match["player1"]["elo"],
-                             match["player1"]["score"])
-            reload_match = Match(player1, player2)
-
-            reload_round.add_reload_match(reload_match)
-        tournament.add_round(reload_round)
+        round_deserializer(round)
+        tournament.add_round(round)
     return tournament

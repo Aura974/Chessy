@@ -28,18 +28,6 @@
                 }
             ],
             "rounds": []
-        },
-        "3": {
-            "name": "Test 3",
-            "time_control": "Bullet",
-            "players": [
-                {
-                    "name": "Aura",
-                    "elo": 18,
-                    "score": 0
-                }
-            ],
-            "rounds": []
         }
     }
 }
