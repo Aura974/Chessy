@@ -14,6 +14,18 @@ def is_date_valid(date_string):
         return False
 
 
+def set_date():
+    date = datetime.datetime.now()
+    date = date.strftime("%d/%m/%Y")
+    return date
+
+
+def set_round_time():
+    time = datetime.datetime.now()
+    time = time.strftime("%d/%m/%Y -- %H:%M:%S")
+    return time
+
+
 def is_tournament_name_valid(name_string):
     if any(x.isalnum() or x.isspace() or x == "-" for x in name_string):
         return True

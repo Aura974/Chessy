@@ -1,30 +1,75 @@
 {
     "tournament_data": {
         "1": {
-            "name": "Test 1",
-            "time_control": "Rapide",
+            "name": "Coupe davis",
+            "place": "paris",
+            "date": "25/08/2021",
+            "time_control": "Blitz",
+            "details": "",
             "players": [
                 {
-                    "name": "Aura",
-                    "elo": 18,
-                    "score": 0
+                    "name": "Nathan",
+                    "surname": "LEROY",
+                    "elo": 1476,
+                    "score": 0.5
+                },
+                {
+                    "name": "In\u00e8s",
+                    "surname": "DENIS",
+                    "elo": 1514,
+                    "score": 0.5
+                },
+                {
+                    "name": "Anna",
+                    "surname": "ANDR\u00c9",
+                    "elo": 1137,
+                    "score": 0.5
+                },
+                {
+                    "name": "Th\u00e9o",
+                    "surname": "GARCIA",
+                    "elo": 1594,
+                    "score": 0.5
+                },
+                {
+                    "name": "Mathis",
+                    "surname": "GUERIN",
+                    "elo": 1277,
+                    "score": 0.5
+                },
+                {
+                    "name": "L\u00e9o",
+                    "surname": "MORIN",
+                    "elo": 1317,
+                    "score": 0.5
+                },
+                {
+                    "name": "Liam",
+                    "surname": "LAMBERT",
+                    "elo": 1268,
+                    "score": 0.5
+                },
+                {
+                    "name": "Alice",
+                    "surname": "LOPEZ",
+                    "elo": 1231,
+                    "score": 0.5
                 }
             ],
             "rounds": []
         },
         "2": {
-            "name": "Test 2",
-            "time_control": "Blitz",
+            "name": "Coupe davis 2",
+            "place": "paris",
+            "date": "26/08/2021",
+            "time_control": "Rapide",
+            "details": "",
             "players": [
                 {
-                    "name": "Aura",
-                    "elo": 18,
-                    "score": 0
-                },
-                {
-                    "name": "Ranga",
-                    "elo": 34,
-                    "score": 0
+                    "name": "Nathan",
+                    "surname": "LEROY",
+                    "elo": 1476,
+                    "score": "25/08/1993"
                 }
             ],
             "rounds": []

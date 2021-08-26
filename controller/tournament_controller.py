@@ -1,6 +1,7 @@
-from utils.checks import (is_tournament_name_valid,
-                          is_place_valid, is_time_control_valid,
-                          time_control_def, error_message)
+from utils.utils import (is_tournament_name_valid,
+                         is_place_valid, is_time_control_valid,
+                         time_control_def, error_message,
+                         set_date, set_round_time)
 from model.round import Round
 from model.tournament import Tournament
 from view.player_view import print_match, print_player
@@ -25,9 +26,10 @@ class TournamentController:
         tournaments = Query()
         name = self.get_and_check_name()
         place = self.get_and_check_place()
+        date = set_date()
         time_control = self.get_and_check_time_control()
         details = get_tournament_details()
-        self.tournament = Tournament(name, place, time_control, details)
+        self.tournament = Tournament(name, place, date, time_control, details)
         self.tournament.players = list()
         self.tournament_data.insert(tournament_serializer(self.tournament))
         tournament_get = self.tournament_data.get(
@@ -93,7 +95,9 @@ class TournamentController:
 
         match_number = 1
 
-        round1 = Round("1")
+        start_time = set_round_time()
+        end_time = None
+        round1 = Round("1", start_time, end_time)
         self.tournament.add_round(round1)
 
         player_for_round = self.get_players()
@@ -117,12 +121,15 @@ class TournamentController:
             print_match_result(match)
             self.update_tournament_score(match)
         print_final_score(self.tournament.players, round1.round_number)
+        end_time = set_round_time()
         self.tournament_data.update(tournament_serializer(self.tournament))
 
     def run_round(self, round_number):
         match_number = 1
 
-        round = Round(str(round_number))
+        start_time = set_round_time()
+        end_time = None
+        round = Round(str(round_number), start_time, end_time)
         self.tournament.add_round(round)
 
         player_for_round = self.get_players()
@@ -159,13 +166,14 @@ class TournamentController:
                 print_match_result(match)
                 self.update_tournament_score(match)
         print_final_score(self.tournament.players, round.round_number)
+        end_time = set_round_time()
         self.tournament_data.update(tournament_serializer(self.tournament))
 
     def get_players(self):
         player_for_round = list()
         for player in self.tournament.players:
             player_for_round.append(player)
-        player_for_round.sort(key=lambda x: x.elo)
+        player_for_round.sort(key=lambda x: x.elo, reverse=True)
         player_for_round.sort(key=lambda x: x.score, reverse=True)
         return player_for_round
 
@@ -180,13 +188,13 @@ class TournamentController:
 
     def get_and_check_name(self):
         name = get_tournament_name()
-        name = name.split().capitalize()
+        name = name.strip().capitalize()
         while not is_tournament_name_valid(name):
             error_message("Le format du nom est incorrect")
             name = get_tournament_name()
         return name
 
-    def get_and_check_place():
+    def get_and_check_place(self):
         place = get_tournament_place()
         while not is_place_valid(place):
             error_message("Le format du lieu est incorrect")

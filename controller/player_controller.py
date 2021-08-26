@@ -1,11 +1,12 @@
-from utils.checks import is_date_valid, error_message, is_elo_valid, is_gender_valid, is_player_name_valid
+from utils.utils import (is_date_valid, error_message,
+                         is_elo_valid, is_gender_valid, is_player_name_valid)
 from view.player_view import (get_player_birthday, get_player_elo, get_player_gender,
                               get_player_name, get_player_surname,
                               players_choice, get_existing_player)
 from model.player import Player
 from tinydb import TinyDB, Query
 from controller.serializer_controller import (player_list_serializer,
-                                              player_list_deserializer)
+                                              player_deserializer)
 
 
 class PlayerController:
@@ -19,7 +20,7 @@ class PlayerController:
         elo = self.get_and_check_elo()
         birth_date = self.get_and_check_date()
         gender = self.get_and_check_gender()
-        self.player = Player(name, surname, elo, birth_date, gender, score=0)
+        self.player = Player(name, surname, elo, birth_date=birth_date, gender=gender, score=0)
         self.players_data.insert(player_list_serializer(self.player))
         return self.player
 
@@ -42,7 +43,7 @@ class PlayerController:
                 existing_player = get_existing_player()
 
         self.player = None
-        self.player = player_list_deserializer(reloaded_player)
+        self.player = player_deserializer(reloaded_player)
         return self.player
 
     def handle_choice(self):

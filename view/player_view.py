@@ -29,7 +29,9 @@ def get_player_elo():
 
 def get_existing_player():
     name = input("Entrez le prénom du joueur : ")
+    name = name.strip().title()
     surname = input("Entrez le nom de famille du joueur : ")
+    surname = surname.strip().upper()
     elo = input("Entrez le classement Elo du joueur : ")
     return name, surname, int(elo)
 
