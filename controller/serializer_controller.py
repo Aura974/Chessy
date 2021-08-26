@@ -22,12 +22,20 @@ def player_list_serializer(player):
     return data
 
 
+def player_list_deserializer(reloaded_player):
+    player = Player(reloaded_player["name"],
+                    reloaded_player["surname"],
+                    reloaded_player["elo"],
+                    reloaded_player["score"])
+    player.birth_date = reloaded_player["birthday"]
+    player.gender = reloaded_player["gender"]
+    return player
+
+
 def player_deserializer(reloaded_player):
     player = Player(reloaded_player["name"],
                     reloaded_player["surname"],
                     reloaded_player["elo"],
-                    reloaded_player["birthday"],
-                    reloaded_player["gender"],
                     reloaded_player["score"])
     return player
 
@@ -66,6 +74,7 @@ def tournament_serializer(tournament):
             "date": tournament.date,
             "time_control": tournament.time_control,
             "details": tournament.details,
+            "status": tournament.status,
             "players": [player_serializer(player)
                         for player in tournament.players],
             "rounds": [round_serializer(round) for round in tournament.rounds]}
@@ -78,6 +87,7 @@ def tournament_deserializer(reloaded_tournament):
                             reloaded_tournament["date"],
                             reloaded_tournament["time_control"],
                             reloaded_tournament["details"])
+    tournament.status = reloaded_tournament["status"]
     tournament.players = list()
     tournament.rounds = list()
 

@@ -5,6 +5,7 @@ class Tournament:
         self.date = date
         self.time_control = time_control
         self.details = details
+        self.status = None
         self.players = list()
         self.rounds = list()
 

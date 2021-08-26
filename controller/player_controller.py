@@ -6,7 +6,7 @@ from view.player_view import (get_player_birthday, get_player_elo, get_player_ge
 from model.player import Player
 from tinydb import TinyDB, Query
 from controller.serializer_controller import (player_list_serializer,
-                                              player_deserializer)
+                                              player_list_deserializer)
 
 
 class PlayerController:
@@ -18,9 +18,9 @@ class PlayerController:
     def new_player(self):
         name, surname = self.get_and_check_name()
         elo = self.get_and_check_elo()
-        birth_date = self.get_and_check_date()
-        gender = self.get_and_check_gender()
-        self.player = Player(name, surname, elo, birth_date=birth_date, gender=gender, score=0)
+        self.player = Player(name, surname, elo, score=0)
+        self.player.birth_date = self.get_and_check_date()
+        self.player.gender = self.get_and_check_gender()
         self.players_data.insert(player_list_serializer(self.player))
         return self.player
 
@@ -43,7 +43,7 @@ class PlayerController:
                 existing_player = get_existing_player()
 
         self.player = None
-        self.player = player_deserializer(reloaded_player)
+        self.player = player_list_deserializer(reloaded_player)
         return self.player
 
     def handle_choice(self):

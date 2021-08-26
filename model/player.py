@@ -1,11 +1,11 @@
 class Player:
-    def __init__(self, name, surname, elo, score, birth_date, gender):
+    def __init__(self, name, surname, elo, score):
         self.name = name
         self.surname = surname
         self.elo = elo
         self.score = score
-        self.birth_date = birth_date
-        self.gender = gender
+        self.birth_date = None
+        self.gender = None
         self.opponent = list()
 
     def __str__(self):

@@ -30,6 +30,7 @@ class TournamentController:
         time_control = self.get_and_check_time_control()
         details = get_tournament_details()
         self.tournament = Tournament(name, place, date, time_control, details)
+        self.tournament.status = "En cours"
         self.tournament.players = list()
         self.tournament_data.insert(tournament_serializer(self.tournament))
         tournament_get = self.tournament_data.get(
@@ -43,8 +44,11 @@ class TournamentController:
             self.tournament.add_player(player)
             self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
         self.run_first_round()
+        self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
         for round_number in range(2, 5):
             self.run_round(round_number)
+        self.tournament.status = "Terminé"
+        self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
 
     def reload_tournament(self):
         self.db = TinyDB("tournament_data.json", indent=4)
@@ -86,9 +90,15 @@ class TournamentController:
 
         if number_round_to_run == 4:
             self.run_first_round()
+            self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
+            for i in range(2, 5):
+                self.run_round(i)
+                self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
         else:
             for i in range(len(reloaded_tournament["rounds"]) + 1, 5):
                 self.run_round(i)
+        self.tournament.status = "Terminé"
+        self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
 
     def run_first_round(self):
         # algorithme pour créer les premiers rounds
@@ -121,8 +131,7 @@ class TournamentController:
             print_match_result(match)
             self.update_tournament_score(match)
         print_final_score(self.tournament.players, round1.round_number)
-        end_time = set_round_time()
-        self.tournament_data.update(tournament_serializer(self.tournament))
+        round1.end_time = set_round_time()
 
     def run_round(self, round_number):
         match_number = 1
@@ -166,8 +175,7 @@ class TournamentController:
                 print_match_result(match)
                 self.update_tournament_score(match)
         print_final_score(self.tournament.players, round.round_number)
-        end_time = set_round_time()
-        self.tournament_data.update(tournament_serializer(self.tournament))
+        round.end_time = set_round_time()
 
     def get_players(self):
         player_for_round = list()
