@@ -5,6 +5,10 @@ def error_message(text):
     print(text)
 
 
+def print_text(text):
+    print(text)
+
+
 def is_date_valid(date_string):
     format = "%d/%m/%Y"
     try:

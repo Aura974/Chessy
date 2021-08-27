@@ -1,7 +1,8 @@
 from utils.utils import (is_tournament_name_valid,
                          is_place_valid, is_time_control_valid,
                          time_control_def, error_message,
-                         set_date, set_round_time)
+                         set_date, set_round_time,
+                         print_text)
 from model.round import Round
 from model.tournament import Tournament
 from view.player_view import print_match, print_player
@@ -39,7 +40,7 @@ class TournamentController:
         tournament_id = tournament_get.doc_id
         for i in range(1, 9):
             playerController = PlayerController()
-            print(f"Joueur {i} : ")
+            print_text(f"Joueur {i} : ")
             player = playerController.handle_players_choice()
             self.tournament.add_player(player)
             self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
@@ -56,7 +57,6 @@ class TournamentController:
         self.tournament_data = self.db.table("tournament_data")
 
         db_tournament = self.tournament_data.search(tournaments.status == "En cours")
-        print(self.tournament_data.get(doc_id=1))
 
         for db_tour in db_tournament:
             number_round_to_run = 4 - len(db_tour["rounds"])
@@ -65,17 +65,18 @@ class TournamentController:
 
         choice = tournament_choice()
 
-        reloaded_tournament = self.tournament_data.get(doc_id=1)
+        reloaded_tournament = self.tournament_data.get(doc_id=choice)
 
         self.tournament = None
         self.tournament = tournament_deserializer(reloaded_tournament)
+        self.tournament.date = set_date()
 
         nb_of_players = len(self.tournament.players)
 
         if nb_of_players < 8:
             for i in range(1, (9 - nb_of_players)):
                 playerController = PlayerController()
-                print(f"Joueur {i + nb_of_players} : ")
+                print_text(f"Joueur {i + nb_of_players} : ")
                 player = playerController.handle_players_choice()
                 self.tournament.add_player(player)
                 self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[choice])

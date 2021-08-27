@@ -30,16 +30,29 @@ def get_player_elo():
 def get_existing_player():
     name = input("Entrez le prénom du joueur : ")
     name = name.strip().title()
-    surname = input("Entrez le nom de famille du joueur : ")
-    surname = surname.strip().upper()
-    elo = input("Entrez le classement Elo du joueur : ")
-    return name, surname, int(elo)
+    # surname = input("Entrez le nom de famille du joueur : ")
+    # surname = surname.strip().upper()
+    # elo = input("Entrez le classement Elo du joueur : ")
+    return name
 
 
 def players_choice():
     choice = input("Nouveau joueur : \033[1m1\033[0m\n"
                    "Joueur existant : \033[1m2\033[0m : ")
     return choice
+
+
+def print_existing_players(db_play):
+    print("-------------------------")
+    print(f"Joueur id : {db_play.doc_id}")
+    print(f"Prénom : {db_play['name']}\n"
+          f"Nom : {db_play['surname']}\n"
+          f"Elo : {db_play['elo']}\n")
+
+
+def existing_player_choice():
+    choice = input("Entrez l'id du joueur souhaité : ")
+    return int(choice)
 
 
 def print_player(players):

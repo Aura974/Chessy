@@ -1,8 +1,8 @@
 from utils.utils import (is_date_valid, error_message,
                          is_elo_valid, is_gender_valid, is_player_name_valid)
-from view.player_view import (get_player_birthday, get_player_elo, get_player_gender,
+from view.player_view import (existing_player_choice, get_player_birthday, get_player_elo, get_player_gender,
                               get_player_name, get_player_surname,
-                              players_choice, get_existing_player)
+                              players_choice, get_existing_player, print_existing_players)
 from model.player import Player
 from tinydb import TinyDB, Query
 from controller.serializer_controller import (player_list_serializer,
@@ -30,17 +30,26 @@ class PlayerController:
         self.player_data = self.db.table('players_data')
 
         existing_player = get_existing_player()
-        while True:
-            try:
-                db_player = self.player_data.search(
-                    (players.name == existing_player[0]) &
-                    (players.surname == existing_player[1]) &
-                    (players.elo == existing_player[2]))
-                reloaded_player = db_player[0]
-                break
-            except IndexError:
-                error_message("Joueur non trouvé")
-                existing_player = get_existing_player()
+        # while True:
+        #     try:
+        #         db_player = self.player_data.search(
+        #             (players.name == existing_player[0]) &
+        #             (players.surname == existing_player[1]) &
+        #             (players.elo == existing_player[2]))
+        #         reloaded_player = db_player[0]
+        #         break
+        #     except IndexError:
+        #         error_message("Joueur non trouvé")
+        #         existing_player = get_existing_player()
+
+        db_player = self.player_data.search(players.name == existing_player)
+
+        for db_play in db_player:
+            print_existing_players(db_play)
+
+        choice = existing_player_choice()
+
+        reloaded_player = self.player_data.get(doc_id=choice)
 
         self.player = None
         self.player = player_list_deserializer(reloaded_player)

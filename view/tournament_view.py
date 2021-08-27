@@ -21,16 +21,6 @@ def get_tournament_details():
     return details
 
 
-# def get_existing_tournament():
-#     name = input("Entrez le nom du tournoi : ")
-#     place = input("Entrez le lieu du tournoi : ")
-#     date = input("Entrez la date du tournoi : ")
-#     time_control = input("Entrez le contrôle du temps : "
-#                          "\n(\033[1mb\033[0m = Bullet / "
-#                          "\033[1mbz\033[0m = Blitz / "
-#                          "\033[1mr\033[0m = Rapide) : ")
-#     return name, place, date, time_control
-
 def print_existing_tournaments(db_tour):
     print("-------------------------")
     print(f"Tournoi n° : {db_tour.doc_id}")
