@@ -57,15 +57,15 @@ def round_serializer(round):
 
 
 def round_deserializer(reloaded_round):
-    round = Round(reloaded_round["round_number"],
-                  reloaded_round["start_time"],
-                  reloaded_round["end_time"])
+    reload_round = Round(reloaded_round["round_number"],
+                         reloaded_round["start_time"],
+                         reloaded_round["end_time"])
     for match in reloaded_round["matches"]:
         player1 = player_deserializer(match["player1"])
         player2 = player_deserializer(match["player2"])
         reload_match = Match(player1, player2)
-        round.add_reload_match(reload_match)
-    return round
+        reload_round.add_reload_match(reload_match)
+    return reload_round
 
 
 def tournament_serializer(tournament):
@@ -96,7 +96,7 @@ def tournament_deserializer(reloaded_tournament):
         tournament.add_player(player)
 
     for round in reloaded_tournament["rounds"]:
-        round_deserializer(round)
-        tournament.add_round(round)
+        reload_round = round_deserializer(round)
+        tournament.add_round(reload_round)
 
     return tournament

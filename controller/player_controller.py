@@ -46,7 +46,7 @@ class PlayerController:
         self.player = player_list_deserializer(reloaded_player)
         return self.player
 
-    def handle_choice(self):
+    def handle_players_choice(self):
         choice = players_choice()
         while (choice != "1" and choice != "2"):
             print("Choisissez 1 ou 2 uniquement")

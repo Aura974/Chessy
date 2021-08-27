@@ -63,6 +63,70 @@
             "birthday": "29/05/1979",
             "gender": "F",
             "score": 0
+        },
+        "9": {
+            "name": "Nathan",
+            "surname": "LEROY",
+            "elo": 1476,
+            "score": 0,
+            "birthday": "25/08/1993",
+            "gender": "M"
+        },
+        "10": {
+            "name": "In\u00e8s",
+            "surname": "DENIS",
+            "elo": 1514,
+            "score": 0,
+            "birthday": "10/01/1982",
+            "gender": "F"
+        },
+        "11": {
+            "name": "Anna",
+            "surname": "ANDR\u00c9",
+            "elo": 1137,
+            "score": 0,
+            "birthday": "16/03/1980",
+            "gender": "F"
+        },
+        "12": {
+            "name": "Th\u00e9o",
+            "surname": "GARCIA",
+            "elo": 1594,
+            "score": 0,
+            "birthday": "26/10/1982",
+            "gender": "M"
+        },
+        "13": {
+            "name": "Mathis",
+            "surname": "GUERIN",
+            "elo": 1277,
+            "score": 0,
+            "birthday": "01/05/1994",
+            "gender": "M"
+        },
+        "14": {
+            "name": "L\u00e9o",
+            "surname": "MORIN",
+            "elo": 1317,
+            "score": 0,
+            "birthday": "07/09/1989",
+            "gender": "M"
+        },
+        "15": {
+            "name": "Liam",
+            "surname": "LAMBERT",
+            "elo": 1268,
+            "score": 0,
+            "birthday": "20/11/1999",
+            "gender": "M"
+        },
+        "16": {
+            "name": "Alice",
+            "surname": "LOPEZ",
+            "elo": 1231,
+            "score": 0,
+            "birthday": "29/05/1979",
+            "gender": "F"
         }
     }
 }
