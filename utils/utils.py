@@ -9,6 +9,15 @@ def print_text(text):
     print(text)
 
 
+def get_age(birthday):
+    birthday = datetime.datetime.strptime(birthday, "%d/%m/%Y")
+    days_in_year = 365.2425
+    today = datetime.datetime.today()
+    delta = today - birthday
+    age = int(delta.days / days_in_year)
+    return age
+
+
 def is_date_valid(date_string):
     format = "%d/%m/%Y"
     try:
@@ -78,3 +87,31 @@ def is_gender_valid(gender_string):
         return True
     else:
         return False
+
+
+def get_index(my_list):
+    for index, elem in enumerate(my_list, start=1):
+        index = index
+        return index
+
+
+def view_score(score):
+    result = "Pas de résultat"
+    if(score == 1):
+        result = "Gagnant joueur 1"
+    elif(score == 0):
+        result = "Gagnant joueur 2"
+    else:
+        result = "Match nul"
+    return result
+
+
+def get_tournament_matches(tournament):
+    tournament_rounds = tournament.rounds
+
+    round_matches = list()
+
+    for round in tournament_rounds:
+        round_matches.append(round.matches)
+
+    return tournament_rounds, round_matches

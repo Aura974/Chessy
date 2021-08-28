@@ -12,9 +12,9 @@ def get_player_surname():
 
 
 def get_player_birthday():
-    birth_date = input("Entrez la date de naissance du joueur\n"
-                       "(format jj/mm/aaaa) : ")
-    return birth_date
+    birthday = input("Entrez la date de naissance du joueur\n"
+                     "(format jj/mm/aaaa) : ")
+    return birthday
 
 
 def get_player_gender():
@@ -30,9 +30,6 @@ def get_player_elo():
 def get_existing_player():
     name = input("Entrez le prénom du joueur : ")
     name = name.strip().title()
-    # surname = input("Entrez le nom de famille du joueur : ")
-    # surname = surname.strip().upper()
-    # elo = input("Entrez le classement Elo du joueur : ")
     return name
 
 
@@ -45,8 +42,8 @@ def players_choice():
 def print_existing_players(db_play):
     print("-------------------------")
     print(f"Joueur id : {db_play.doc_id}")
-    print(f"Prénom : {db_play['name']}\n"
-          f"Nom : {db_play['surname']}\n"
+    print(f"Nom : {db_play['surname']}\n"
+          f"Prénom : {db_play['name']}\n"
           f"Elo : {db_play['elo']}\n")
 
 
@@ -60,8 +57,8 @@ def print_player(players):
     print("CLASSEMENT DES JOUEURS")
     print("-------------------------")
     for player in players:
-        print(f"Prénom : {player.name}")
         print(f"NOM : {player.surname}")
+        print(f"Prénom : {player.name}")
         print(f"Score : {player.score}")
         print(f"Elo : {player.elo}")
         print("--------------------")
@@ -71,6 +68,42 @@ def print_player(players):
 
 def print_match(matches):
     print("--------------------")
-    print(f"1.{matches.player1.name} {matches.player1.surname}\n\n"
+    print(f"1.{matches.player1.surname} {matches.player1.name}\n\n"
           f"VS\n\n"
-          f"2.{matches.player2.name} {matches.player2.surname}\n")
+          f"2.{matches.player2.surname} {matches.player2.name}\n")
+
+
+def print_players_a_to_z():
+    print("-------------------------")
+    print("-------------------------")
+    print("LISTE DES JOUEURS")
+    print("ORDRE ALPHABÉTIQUE")
+    print("-------------------------")
+
+
+def print_players_elo_ascending():
+    print("-------------------------")
+    print("-------------------------")
+    print("LISTE DES JOUEURS")
+    print("CLASSEMENT ASCENDANT")
+    print("-------------------------")
+
+
+def print_players_elo_descending():
+    print("-------------------------")
+    print("-------------------------")
+    print("LISTE DES JOUEURS")
+    print("CLASSEMENT DESCENDANT")
+    print("-------------------------")
+
+
+def print_players_list(players):
+    for player in players:
+        print("-------------------------")
+        print(f"NOM : {player.surname}")
+        print(f"Prénom : {player.name}")
+        print(f"Elo : {player.elo}")
+        print(f"Âge : {player.age} ans")
+        print(f"Date de naissance : {player.birthday}")
+        print(f"Sexe : {player.gender}")
+        print("-------------------------")

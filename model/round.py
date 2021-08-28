@@ -6,7 +6,7 @@ class Round:
         self.round_number = round_number
         self.start_time = start_time
         self.end_time = end_time
-        self.matches = []
+        self.matches = list()
 
     def add_match(self, player1, player2):
         match = Match(player1, player2)

@@ -4,7 +4,7 @@ class Player:
         self.surname = surname
         self.elo = elo
         self.score = score
-        self.birth_date = None
+        self.birthday = None
         self.gender = None
         self.opponent = list()
 

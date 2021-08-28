@@ -19,7 +19,7 @@ class PlayerController:
         name, surname = self.get_and_check_name()
         elo = self.get_and_check_elo()
         self.player = Player(name, surname, elo, score=0)
-        self.player.birth_date = self.get_and_check_date()
+        self.player.birthday = self.get_and_check_date()
         self.player.gender = self.get_and_check_gender()
         self.players_data.insert(player_list_serializer(self.player))
         return self.player
@@ -30,17 +30,6 @@ class PlayerController:
         self.player_data = self.db.table('players_data')
 
         existing_player = get_existing_player()
-        # while True:
-        #     try:
-        #         db_player = self.player_data.search(
-        #             (players.name == existing_player[0]) &
-        #             (players.surname == existing_player[1]) &
-        #             (players.elo == existing_player[2]))
-        #         reloaded_player = db_player[0]
-        #         break
-        #     except IndexError:
-        #         error_message("Joueur non trouvé")
-        #         existing_player = get_existing_player()
 
         db_player = self.player_data.search(players.name == existing_player)
 
@@ -79,7 +68,7 @@ class PlayerController:
             surname = surname.strip().upper()
             while not is_player_name_valid(surname):
                 error_message("Le format du nom est incorrect")
-                surname = get_player_name()
+                surname = get_player_surname()
                 surname = surname.strip().upper()
         return name, surname
 
@@ -91,11 +80,11 @@ class PlayerController:
         return int(elo)
 
     def get_and_check_date(self):
-        birth_date = get_player_birthday()
-        while not is_date_valid(birth_date):
+        birthday = get_player_birthday()
+        while not is_date_valid(birthday):
             error_message("La date n'a pas le bon format dd/mm/YYYY")
-            birth_date = get_player_birthday()
-        return birth_date
+            birthday = get_player_birthday()
+        return birthday
 
     def get_and_check_gender(self):
         gender = get_player_gender()

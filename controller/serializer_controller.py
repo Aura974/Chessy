@@ -17,7 +17,7 @@ def player_list_serializer(player):
             "surname": player.surname,
             "elo": player.elo,
             "score": player.score,
-            "birthday": player.birth_date,
+            "birthday": player.birthday,
             "gender": player.gender}
     return data
 
@@ -27,7 +27,7 @@ def player_list_deserializer(reloaded_player):
                     reloaded_player["surname"],
                     reloaded_player["elo"],
                     reloaded_player["score"])
-    player.birth_date = reloaded_player["birthday"]
+    player.birthday = reloaded_player["birthday"]
     player.gender = reloaded_player["gender"]
     return player
 
@@ -64,6 +64,8 @@ def round_deserializer(reloaded_round):
         player1 = player_deserializer(match["player1"])
         player2 = player_deserializer(match["player2"])
         reload_match = Match(player1, player2)
+        reload_match.score_player1 = match["score_player1"]
+        reload_match.score_player2 = match["score_player2"]
         reload_round.add_reload_match(reload_match)
     return reload_round
 
