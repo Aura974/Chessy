@@ -115,3 +115,10 @@ def get_tournament_matches(tournament):
         round_matches.append(round.matches)
 
     return tournament_rounds, round_matches
+
+
+def is_query_empty(query):
+    if len(query) == 0:
+        return True
+    else:
+        return False

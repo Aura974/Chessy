@@ -40,7 +40,7 @@ def print_number_round_to_run(number):
 
 
 def tournament_choice():
-    choice = input("Entrez le n° du tournoi souhaité : ")
+    choice = input("Entrez l'id du tournoi souhaité : ")
     return int(choice)
 
 
@@ -51,7 +51,7 @@ def print_tournaments_list(tournaments):
     print("-------------------------")
     for tournament in tournaments:
         print("-------------------------")
-        print(f"N° : {tournament.index}")
+        print(f"ID : {tournament.index}")
         print(f"Nom : {tournament.name}")
         print(f"Lieu : {tournament.place}")
         print(f"Date : {tournament.date}")

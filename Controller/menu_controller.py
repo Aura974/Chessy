@@ -1,10 +1,12 @@
-from tinydb import TinyDB
+import os
+from tinydb import TinyDB, Query
 from controller.player_controller import player_list_deserializer
 from controller.serializer_controller import tournament_deserializer
-from view.player_view import (print_players_a_to_z,
-                              print_players_elo_ascending,
+from view.player_view import (existing_player_choice, get_existing_player,
+                              get_new_elo, print_existing_players,
+                              print_players_a_to_z,                           print_players_elo_ascending,
                               print_players_elo_descending,
-                              print_players_list)
+                              print_players_list, print_players_title)
 from view.tournament_view import (print_tournament_matches,
                                   print_tournament_matches_title,
                                   print_tournament_players_a_to_z,
@@ -13,7 +15,10 @@ from view.tournament_view import (print_tournament_matches,
                                   print_tournament_rounds,
                                   print_tournaments_list,
                                   tournament_choice)
-from utils.utils import get_age, get_tournament_matches
+from utils.utils import (get_age,
+                         get_tournament_matches,
+                         is_elo_valid,
+                         error_message, is_query_empty, print_text)
 
 
 def get_players_list():
@@ -28,6 +33,42 @@ def get_players_list():
         players.append(player)
 
     return players
+
+
+def update_player_elo():
+    db = TinyDB("players_data.json", indent=4)
+    players = Query()
+    player_data = db.table('players_data')
+
+    existing_player = get_existing_player()
+
+    db_players = player_data.search(players.name == existing_player)
+
+    while is_query_empty(db_players):
+        print_text("Aucun joueur trouvé")
+        existing_player = get_existing_player()
+        db_players = player_data.search(players.name == existing_player)
+
+    print_players_title()
+    for db_play in db_players:
+        print_existing_players(db_play)
+
+    choice = existing_player_choice()
+
+    new_elo = get_new_elo()
+
+    while not is_elo_valid(new_elo):
+        error_message("Veuillez entrer un nombre")
+        new_elo = get_new_elo()
+    else:
+        new_elo = int(new_elo)
+        os.system("cls")
+        print_text("Changement validé !")
+        player_data.update({"elo": new_elo}, doc_ids=[choice])
+        uploaded_player = player_data.get(doc_id=choice)
+        print_existing_players(uploaded_player)
+
+    return new_elo
 
 
 def get_players_a_to_z(players):

@@ -39,9 +39,15 @@ def players_choice():
     return choice
 
 
+def print_players_title():
+    print("-------------------------")
+    print("LISTE DES JOUEURS")
+    print("-------------------------")
+
+
 def print_existing_players(db_play):
     print("-------------------------")
-    print(f"Joueur id : {db_play.doc_id}")
+    print(f"ID joueur : {db_play.doc_id}")
     print(f"Nom : {db_play['surname']}\n"
           f"Prénom : {db_play['name']}\n"
           f"Elo : {db_play['elo']}\n")
@@ -71,6 +77,11 @@ def print_match(matches):
     print(f"1.{matches.player1.surname} {matches.player1.name}\n\n"
           f"VS\n\n"
           f"2.{matches.player2.surname} {matches.player2.name}\n")
+
+
+def get_new_elo():
+    new_elo = input("Entrez le nouveau classement du joueur : ")
+    return new_elo
 
 
 def print_players_a_to_z():

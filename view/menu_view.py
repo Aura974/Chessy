@@ -1,4 +1,4 @@
-from controller.menu_controller import (get_players_a_to_z,
+from controller.menu_controller import (update_player_elo, get_players_a_to_z,
                                         get_players_elo_ascending,
                                         get_players_elo_descending,
                                         get_players_list,
@@ -97,6 +97,6 @@ def home_menu():
         elif input == 4:
             tournaments_reports_menu()
         elif input == 5:
-            pass
+            update_player_elo()
         elif input == 6:
             break

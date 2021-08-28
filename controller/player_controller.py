@@ -94,3 +94,6 @@ class PlayerController:
             gender = get_player_gender()
             gender.lower()
         return gender.upper()
+
+    # def check_if_player_exist(self):
+
