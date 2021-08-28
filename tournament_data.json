@@ -1392,6 +1392,23 @@
                 }
             ],
             "rounds": []
+        },
+        "6": {
+            "name": "Test new players",
+            "place": "Mars",
+            "date": "28/08/2021",
+            "time_control": "Blitz",
+            "details": "",
+            "status": "En cours",
+            "players": [
+                {
+                    "name": "Nathan",
+                    "surname": "LEROY",
+                    "elo": 1732,
+                    "score": 0
+                }
+            ],
+            "rounds": []
         }
     }
 }

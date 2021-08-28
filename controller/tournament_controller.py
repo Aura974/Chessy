@@ -119,10 +119,10 @@ class TournamentController:
             match.player2.opponent.append(match.player1.elo)
 
         for match in self.tournament.rounds[0].matches:
-            print(f"\nROUND #1 - MATCH #{match_number}")
+            print_text(f"\nROUND #1 - MATCH #{match_number}")
             print_match(match)
             match.score_player1, match.score_player2 = self.handle_score()
-            print(f"\nRÉSULTAT DU MATCH #{match_number}")
+            print_text(f"\nRÉSULTAT DU MATCH #{match_number}")
             match_number += 1
             print_match_result(match)
             self.update_tournament_score(match)
@@ -163,10 +163,10 @@ class TournamentController:
 
         for i in range(1, 2):
             for match in self.tournament.rounds[round_number-1].matches:
-                print(f"\nROUND #{round_number} - MATCH #{match_number}")
+                print_text(f"\nROUND #{round_number} - MATCH #{match_number}")
                 print_match(match)
                 match.score_player1, match.score_player2 = self.handle_score()
-                print(f"\nRÉSULTAT DU MATCH #{match_number}")
+                print_text(f"\nRÉSULTAT DU MATCH #{match_number}")
                 match_number += 1
                 print_match_result(match)
                 self.update_tournament_score(match)
@@ -196,13 +196,16 @@ class TournamentController:
         while not is_tournament_name_valid(name):
             error_message("Le format du nom est incorrect")
             name = get_tournament_name()
+            name = name.strip().capitalize()
         return name
 
     def get_and_check_place(self):
         place = get_tournament_place()
+        place = place.strip().capitalize()
         while not is_place_valid(place):
             error_message("Le format du lieu est incorrect")
             place = get_tournament_place()
+            place = place.strip().capitalize()
         return place
 
     def get_and_check_time_control(self):

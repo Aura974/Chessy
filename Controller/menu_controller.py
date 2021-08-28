@@ -45,7 +45,7 @@ def update_player_elo():
     db_players = player_data.search(players.name == existing_player)
 
     while is_query_empty(db_players):
-        print_text("Aucun joueur trouvé")
+        error_message("Aucun joueur trouvé")
         existing_player = get_existing_player()
         db_players = player_data.search(players.name == existing_player)
 

@@ -1,5 +1,5 @@
 from utils.utils import (is_date_valid, error_message,
-                         is_elo_valid, is_gender_valid, is_player_name_valid)
+                         is_elo_valid, is_gender_valid, is_player_name_valid, is_query_empty)
 from view.player_view import (existing_player_choice, get_player_birthday, get_player_elo, get_player_gender,
                               get_player_name, get_player_surname,
                               players_choice, get_existing_player, print_existing_players)
@@ -16,12 +16,27 @@ class PlayerController:
         self.players_data = self.db.table("players_data")
 
     def new_player(self):
+        players = Query()
         name, surname = self.get_and_check_name()
         elo = self.get_and_check_elo()
+        self.player = Player(name, surname, elo, score=0)
+        db_players = self.players_data.search((players.name == name) &
+                                              (players.surname == surname) &
+                                              (players.elo == elo))
+
+        while not is_query_empty(db_players):
+            error_message("Joueur déjà dans la base de données")
+            name, surname = self.get_and_check_name()
+            elo = self.get_and_check_elo()
+            db_players = self.players_data.search((players.name == name) &
+                                                  (players.surname == surname) &
+                                                  (players.elo == elo))
+
         self.player = Player(name, surname, elo, score=0)
         self.player.birthday = self.get_and_check_date()
         self.player.gender = self.get_and_check_gender()
         self.players_data.insert(player_list_serializer(self.player))
+
         return self.player
 
     def reload_player(self):
@@ -47,7 +62,7 @@ class PlayerController:
     def handle_players_choice(self):
         choice = players_choice()
         while (choice != "1" and choice != "2"):
-            print("Choisissez 1 ou 2 uniquement")
+            error_message("Choisissez 1 ou 2 uniquement")
             choice = players_choice()
         else:
             if (choice == "1"):
@@ -94,6 +109,3 @@ class PlayerController:
             gender = get_player_gender()
             gender.lower()
         return gender.upper()
-
-    # def check_if_player_exist(self):
-
