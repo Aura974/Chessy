@@ -1,4 +1,4 @@
-from view.menu_view import home_menu
+from controller.menu_controller import home_menu
 
 
 if __name__ == "__main__":

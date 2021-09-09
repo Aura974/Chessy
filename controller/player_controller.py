@@ -48,6 +48,11 @@ class PlayerController:
 
         db_player = self.player_data.search(players.name == existing_player)
 
+        while is_query_empty(db_player):
+            error_message("Aucune donnée pour ce joueur.")
+            existing_player = get_existing_player()
+            db_player = self.players_data.search(players.name == existing_player)
+
         for db_play in db_player:
             print_existing_players(db_play)
 

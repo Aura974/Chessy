@@ -1,5 +1,6 @@
 from utils.utils import (is_tournament_name_valid,
                          is_place_valid, is_time_control_valid,
+                         is_continue_or_quit,
                          time_control_def, error_message,
                          set_date, set_round_time,
                          print_text)
@@ -11,7 +12,8 @@ from view.tournament_view import (get_tournament_name,
                                   get_tournament_time_control,
                                   get_tournament_place,
                                   get_tournament_details,
-                                  tournament_choice, print_existing_tournaments, print_number_round_to_run)
+                                  tournament_choice, print_existing_tournaments, print_number_round_to_run,
+                                  get_continue_or_quit)
 from controller.serializer_controller import tournament_serializer, tournament_deserializer
 from controller.player_controller import PlayerController
 from tinydb import TinyDB, Query
@@ -46,8 +48,10 @@ class TournamentController:
             self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
         self.run_first_round()
         self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
+        self.get_and_check_continue_or_quit()
         for round_number in range(2, 5):
             self.run_round(round_number)
+            self.get_and_check_continue_or_quit()
         self.tournament.status = "Terminé"
         self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
 
@@ -86,13 +90,16 @@ class TournamentController:
         if number_round_to_run == 4:
             self.run_first_round()
             self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[choice])
+            self.get_and_check_continue_or_quit()
             for i in range(2, 5):
                 self.run_round(i)
                 self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[choice])
+                self.get_and_check_continue_or_quit()
         else:
             for i in range(len(self.tournament.rounds) + 1, 5):
                 self.run_round(i)
                 self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[choice])
+                self.get_and_check_continue_or_quit()
         self.tournament.status = "Terminé"
         self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[choice])
 
@@ -218,6 +225,22 @@ class TournamentController:
         else:
             time_control = time_control_def(time_control)
         return time_control
+
+    def handle_continue_or_quit(self, quit):
+        if quit == "":
+            pass
+        else:
+            return
+
+    def get_and_check_continue_or_quit(self):
+        quit = get_continue_or_quit()
+
+        while not is_continue_or_quit(quit):
+            error_message("Aucune commande correspondante")
+            quit = get_continue_or_quit()
+        else:
+            self.handle_continue_or_quit(quit)
+        return quit
 
     def update_tournament_score(self, match):
         match.player1.score += match.score_player1

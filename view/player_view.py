@@ -68,7 +68,7 @@ def print_player(players):
         print(f"Score : {player.score}")
         print(f"Elo : {player.elo}")
         print("--------------------")
-    input("Appuyez sur ENTRÉE pour continuer...")
+    input(" sur ENTRÉE pour continuer...")
     os.system("cls")
 
 

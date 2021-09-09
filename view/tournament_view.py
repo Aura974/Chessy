@@ -130,3 +130,10 @@ def print_tournament_matches(rounds, matches):
             result = view_score(match.score_player1)
             print(f" -- Résultat :  {result} --")
             print("-------------------------")
+
+
+def get_continue_or_quit():
+    quit = input("Appuyez sur ENTRÉE pour continuer"
+                 "\n(Q pour quitter) : ")
+    quit = quit.lower()
+    return quit

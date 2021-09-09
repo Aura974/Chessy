@@ -122,3 +122,10 @@ def is_query_empty(query):
         return True
     else:
         return False
+
+
+def is_continue_or_quit(quit):
+    if (quit == "" or quit == "q"):
+        return True
+    else:
+        return False
