@@ -67,11 +67,7 @@
         "9": {
             "name": "Louis",
             "surname": "LAURENT",
-<<<<<<< HEAD
             "elo": 1191,
-=======
-            "elo": 1190,
->>>>>>> 5a271ff50d91018f53d7351118691416620579e4
             "birthday": "26/05/1993",
             "gender": "M",
             "score": 0
@@ -85,11 +81,7 @@
             "score": 0
         },
         "11": {
-<<<<<<< HEAD
             "name": "Paul",
-=======
-            "name": "Ethan",
->>>>>>> 5a271ff50d91018f53d7351118691416620579e4
             "surname": "CLEMENT",
             "elo": 1422,
             "birthday": "13/08/1975",
@@ -123,11 +115,7 @@
         "15": {
             "name": "Gabin",
             "surname": "HENRY",
-<<<<<<< HEAD
             "elo": 1271,
-=======
-            "elo": 1270,
->>>>>>> 5a271ff50d91018f53d7351118691416620579e4
             "birthday": "22/06/1992",
             "gender": "M",
             "score": 0

@@ -2,9 +2,9 @@ import os
 
 
 def enter_score():
-    score = input("Veuillez renseigner le score \n(\033[1m1\033[0m :"
-                  "joueur 1 gagnant |\033[1m2\033[0m : joueur 2 gagnant |"
-                  "\033[1m3\033[0m : match nul) : ")
+    score = input("Veuillez renseigner le score \n(1 :"
+                  "joueur 1 gagnant | 2 : joueur 2 gagnant |"
+                  "3 : match nul) : ")
     return score
 
 
