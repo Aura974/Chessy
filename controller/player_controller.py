@@ -1,12 +1,16 @@
 from utils.utils import (is_date_valid, error_message,
-                         is_elo_valid, is_gender_valid, is_player_name_valid, is_query_empty)
-from view.player_view import (existing_player_choice, get_player_birthday, get_player_elo, get_player_gender,
+                         is_elo_valid, is_gender_valid, is_player_name_valid, is_query_empty, print_text)
+from view.player_view import (existing_player_choice, get_player_birthday,
+                              get_player_elo, get_player_gender,
                               get_player_name, get_player_surname,
-                              players_choice, get_existing_player, print_existing_players)
+                              players_choice, get_existing_player,
+                              print_players_title, get_new_elo,
+                              print_existing_players)
 from model.player import Player
 from tinydb import TinyDB, Query
 from controller.serializer_controller import (player_list_serializer,
                                               player_list_deserializer)
+import os
 
 
 class PlayerController:
@@ -114,3 +118,38 @@ class PlayerController:
             gender = get_player_gender()
             gender.lower()
         return gender.upper()
+
+    def update_player_elo():
+        db = TinyDB("players_data.json", indent=4)
+        players = Query()
+        player_data = db.table('players_data')
+
+        existing_player = get_existing_player()
+
+        db_players = player_data.search(players.name == existing_player)
+
+        while is_query_empty(db_players):
+            error_message("Aucun joueur trouvé")
+            existing_player = get_existing_player()
+            db_players = player_data.search(players.name == existing_player)
+
+        print_players_title()
+        for db_play in db_players:
+            print_existing_players(db_play)
+
+        choice = existing_player_choice()
+
+        new_elo = get_new_elo()
+
+        while not is_elo_valid(new_elo):
+            error_message("Veuillez entrer un nombre")
+            new_elo = get_new_elo()
+        else:
+            new_elo = int(new_elo)
+            os.system("cls")
+            print_text("Changement validé !")
+            player_data.update({"elo": new_elo}, doc_ids=[choice])
+            uploaded_player = player_data.get(doc_id=choice)
+            print_existing_players(uploaded_player)
+
+        return new_elo
