@@ -55,6 +55,7 @@ def print_existing_players(db_play):
 
 def existing_player_choice():
     choice = input("Entrez l'id du joueur souhaité : ")
+    os.system("cls")
     return int(choice)
 
 

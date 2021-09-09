@@ -41,6 +41,7 @@ def players_reports_menu():
             players = get_players_list()
             get_players_a_to_z(players)
         elif input == 2:
+            os.system("cls")
             players = get_players_list()
             get_players_elo_ascending(players)
         elif input == 3:

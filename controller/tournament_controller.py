@@ -12,7 +12,11 @@ from view.round_view import enter_score, print_final_score, print_match_result
 from view.tournament_view import (get_tournament_name,
                                   get_tournament_time_control,
                                   get_tournament_place,
+<<<<<<< HEAD
                                   get_tournament_details, print_update_player_elo,
+=======
+                                  get_tournament_details,
+>>>>>>> 5a271ff50d91018f53d7351118691416620579e4
                                   tournament_choice, print_existing_tournaments,
                                   print_current_tournaments,
                                   print_number_round_to_run,
@@ -58,7 +62,10 @@ class TournamentController:
             pass
         for round_number in range(2, 5):
             self.run_round(round_number)
+<<<<<<< HEAD
             self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
+=======
+>>>>>>> 5a271ff50d91018f53d7351118691416620579e4
             quit = self.get_and_check_continue_or_quit()
             if quit == "q":
                 return
@@ -83,10 +90,13 @@ class TournamentController:
 
         db_tournament = self.tournament_data.search(tournaments.status == "En cours")
 
+<<<<<<< HEAD
         while is_query_empty(db_tournament):
             error_message("Aucun tournoi en cours")
             return
 
+=======
+>>>>>>> 5a271ff50d91018f53d7351118691416620579e4
         print_current_tournaments()
 
         for db_tour in db_tournament:
