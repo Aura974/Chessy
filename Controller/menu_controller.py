@@ -25,9 +25,10 @@ from utils.utils import (get_age,
 
 
 def get_user_input(range):
-    input_user = input("Entrer votre choix  : ")
+    input_user = input("Entrez votre choix  : ")
     while not int(input_user) > 0 or not int(input_user) <= range:
-        input_user = input("Entrer votre choix  : ")
+        input_user = input("Entrez votre choix  : ")
+    os.system("cls")
     return int(input_user)
 
 
@@ -40,6 +41,7 @@ def players_reports_menu():
             players = get_players_list()
             get_players_a_to_z(players)
         elif input == 2:
+            os.system("cls")
             players = get_players_list()
             get_players_elo_ascending(players)
         elif input == 3:

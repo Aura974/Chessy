@@ -1,4 +1,5 @@
 from utils.utils import view_score
+import os
 
 
 def get_tournament_name():
@@ -24,6 +25,13 @@ def get_tournament_details():
     return details
 
 
+def print_current_tournaments():
+    print("-------------------------")
+    print("-------------------------")
+    print("LISTE DES TOURNOIS EN COURS")
+    print("-------------------------")
+
+
 def print_existing_tournaments(db_tour):
     print("-------------------------")
     print(f"Tournoi n° : {db_tour.doc_id}")
@@ -41,6 +49,7 @@ def print_number_round_to_run(number):
 
 def tournament_choice():
     choice = input("Entrez l'id du tournoi souhaité : ")
+    os.system("cls")
     return int(choice)
 
 
@@ -135,5 +144,4 @@ def print_tournament_matches(rounds, matches):
 def get_continue_or_quit():
     quit = input("Appuyez sur ENTRÉE pour continuer"
                  "\n(Q pour quitter) : ")
-    quit = quit.lower()
     return quit
