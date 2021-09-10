@@ -39,7 +39,7 @@ Une connexion internet n'est pas requise.
 
     *Unix ou Mac* :
 
-    `source env/bin/activate`
+    `source env/Scripts/activate`
 
     **Ces actions seront à effectuer avant chaque lancement de l'application.**
 
