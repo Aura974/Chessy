@@ -12,7 +12,9 @@ from view.tournament_view import (get_tournament_name,
                                   get_tournament_time_control,
                                   get_tournament_place,
                                   get_tournament_details,
-                                  tournament_choice, print_existing_tournaments, print_number_round_to_run,
+                                  tournament_choice, print_existing_tournaments,
+                                  print_current_tournaments,
+                                  print_number_round_to_run,
                                   get_continue_or_quit)
 from controller.serializer_controller import tournament_serializer, tournament_deserializer
 from controller.player_controller import PlayerController
@@ -48,10 +50,18 @@ class TournamentController:
             self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
         self.run_first_round()
         self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
-        self.get_and_check_continue_or_quit()
+        quit = self.get_and_check_continue_or_quit()
+        if quit == "q":
+            return
+        else:
+            pass
         for round_number in range(2, 5):
             self.run_round(round_number)
-            self.get_and_check_continue_or_quit()
+            quit = self.get_and_check_continue_or_quit()
+            if quit == "q":
+                return
+            else:
+                pass
         self.tournament.status = "Terminé"
         self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
 
@@ -61,6 +71,8 @@ class TournamentController:
         self.tournament_data = self.db.table("tournament_data")
 
         db_tournament = self.tournament_data.search(tournaments.status == "En cours")
+
+        print_current_tournaments()
 
         for db_tour in db_tournament:
             number_round_to_run = 4 - len(db_tour["rounds"])
@@ -90,16 +102,28 @@ class TournamentController:
         if number_round_to_run == 4:
             self.run_first_round()
             self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[choice])
-            self.get_and_check_continue_or_quit()
+            quit = self.get_and_check_continue_or_quit()
+            if quit == "q":
+                return
+            else:
+                pass
             for i in range(2, 5):
                 self.run_round(i)
                 self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[choice])
-                self.get_and_check_continue_or_quit()
+                quit = self.get_and_check_continue_or_quit()
+                if quit == "q":
+                    return
+                else:
+                    pass
         else:
             for i in range(len(self.tournament.rounds) + 1, 5):
                 self.run_round(i)
                 self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[choice])
-                self.get_and_check_continue_or_quit()
+                quit = self.get_and_check_continue_or_quit()
+                if quit == "q":
+                    return
+                else:
+                    pass
         self.tournament.status = "Terminé"
         self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[choice])
 
@@ -226,20 +250,14 @@ class TournamentController:
             time_control = time_control_def(time_control)
         return time_control
 
-    def handle_continue_or_quit(self, quit):
-        if quit == "":
-            pass
-        else:
-            return
-
     def get_and_check_continue_or_quit(self):
         quit = get_continue_or_quit()
+        quit = quit.lower()
 
         while not is_continue_or_quit(quit):
             error_message("Aucune commande correspondante")
             quit = get_continue_or_quit()
-        else:
-            self.handle_continue_or_quit(quit)
+            quit = quit.lower()
         return quit
 
     def update_tournament_score(self, match):
