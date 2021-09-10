@@ -1,6 +1,7 @@
-from utils.utils import (is_tournament_name_valid,
+from utils.utils import (is_query_empty, is_tournament_name_valid,
                          is_place_valid, is_time_control_valid,
                          is_continue_or_quit,
+                         is_update_player_elo_valid,
                          time_control_def, error_message,
                          set_date, set_round_time,
                          print_text)
@@ -12,10 +13,12 @@ from view.tournament_view import (get_tournament_name,
                                   get_tournament_time_control,
                                   get_tournament_place,
                                   get_tournament_details,
-                                  tournament_choice, print_existing_tournaments,
+                                  tournament_choice,
+                                  print_existing_tournaments,
                                   print_current_tournaments,
                                   print_number_round_to_run,
-                                  get_continue_or_quit)
+                                  get_continue_or_quit,
+                                  print_update_player_elo)
 from controller.serializer_controller import tournament_serializer, tournament_deserializer
 from controller.player_controller import PlayerController
 from tinydb import TinyDB, Query
@@ -57,6 +60,7 @@ class TournamentController:
             pass
         for round_number in range(2, 5):
             self.run_round(round_number)
+            self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
             quit = self.get_and_check_continue_or_quit()
             if quit == "q":
                 return
@@ -65,12 +69,25 @@ class TournamentController:
         self.tournament.status = "Terminé"
         self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[tournament_id])
 
+        update_elo = self.check_update_player_elo()
+
+        while True:
+            if update_elo == "o":
+                PlayerController.update_player_elo()
+                update_elo = self.check_update_player_elo()
+            else:
+                return
+
     def reload_tournament(self):
         self.db = TinyDB("tournament_data.json", indent=4)
         tournaments = Query()
         self.tournament_data = self.db.table("tournament_data")
 
         db_tournament = self.tournament_data.search(tournaments.status == "En cours")
+
+        while is_query_empty(db_tournament):
+            error_message("Aucun tournoi en cours")
+            return
 
         print_current_tournaments()
 
@@ -127,6 +144,15 @@ class TournamentController:
         self.tournament.status = "Terminé"
         self.tournament_data.update(tournament_serializer(self.tournament), doc_ids=[choice])
 
+        update_elo = self.check_update_player_elo()
+
+        while True:
+            if update_elo == "o":
+                PlayerController.update_player_elo()
+                update_elo = self.check_update_player_elo()
+            else:
+                return
+
     def run_first_round(self):
         # algorithme pour créer les premiers rounds
 
@@ -157,6 +183,8 @@ class TournamentController:
             match_number += 1
             print_match_result(match)
             self.update_tournament_score(match)
+        self.tournament.players.sort(key=lambda x: x.elo, reverse=True)
+        self.tournament.players.sort(key=lambda x: x.score, reverse=True)
         print_final_score(self.tournament.players, round1.round_number)
         round1.end_time = set_round_time()
 
@@ -201,6 +229,8 @@ class TournamentController:
                 match_number += 1
                 print_match_result(match)
                 self.update_tournament_score(match)
+        self.tournament.players.sort(key=lambda x: x.elo, reverse=True)
+        self.tournament.players.sort(key=lambda x: x.score, reverse=True)
         print_final_score(self.tournament.players, round.round_number)
         round.end_time = set_round_time()
 
@@ -243,7 +273,7 @@ class TournamentController:
         time_control = get_tournament_time_control()
         time_control = time_control.lower()
         while is_time_control_valid(time_control):
-            error_message("\033[38;5;1;88m Le format du contrôle du temps est incorrect\033[0m")
+            error_message("Le format du contrôle du temps est incorrect")
             time_control = get_tournament_time_control()
             time_control = time_control.lower()
         else:
@@ -263,3 +293,13 @@ class TournamentController:
     def update_tournament_score(self, match):
         match.player1.score += match.score_player1
         match.player2.score += match.score_player2
+
+    def check_update_player_elo(self):
+        update_elo = print_update_player_elo()
+        update_elo = update_elo.lower()
+
+        while not is_update_player_elo_valid(update_elo):
+            error_message("Entrez uniquement ""O"" ou ""N""")
+            update_elo = print_update_player_elo()
+            update_elo = update_elo.lower()
+        return update_elo

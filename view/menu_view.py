@@ -1,3 +1,14 @@
+def print_greetings():
+    print("-------------------------")
+    print("Bienvenue dans l'application Chessy !")
+    print("-------------------------\n\n")
+
+
+def print_goodbye():
+    print("-------------------------")
+    print("À bientôt !")
+    print("-------------------------\n\n")
+
 
 def print_home_menu():
     print("1: Lancer un nouveau tournoi")

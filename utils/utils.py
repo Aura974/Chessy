@@ -129,3 +129,10 @@ def is_continue_or_quit(quit):
         return True
     else:
         return False
+
+
+def is_update_player_elo_valid(update_elo):
+    if (update_elo == "o" or update_elo == "n"):
+        return True
+    else:
+        return False

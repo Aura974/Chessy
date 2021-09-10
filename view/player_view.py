@@ -34,8 +34,8 @@ def get_existing_player():
 
 
 def players_choice():
-    choice = input("Nouveau joueur : \033[1m1\033[0m\n"
-                   "Joueur existant : \033[1m2\033[0m : ")
+    choice = input("Nouveau joueur : 1\n"
+                   "Joueur existant : 2 : ")
     return choice
 
 

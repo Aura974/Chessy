@@ -14,9 +14,9 @@ def get_tournament_place():
 
 def get_tournament_time_control():
     time_control = input("Entrez le contrôle du temps : "
-                         "\n(\033[1mb\033[0m = Bullet / "
-                         "\033[1mbz\033[0m = Blitz / "
-                         "\033[1mr\033[0m = Rapide) : ")
+                         "\n(b = Bullet / "
+                         "bz = Blitz / "
+                         "r = Rapide) : ")
     return time_control
 
 
@@ -145,3 +145,8 @@ def get_continue_or_quit():
     quit = input("Appuyez sur ENTRÉE pour continuer"
                  "\n(Q pour quitter) : ")
     return quit
+
+
+def print_update_player_elo():
+    update_elo = input("Changer le classement ELO d'un joueur ? (O/N) : ")
+    return update_elo

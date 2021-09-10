@@ -27,7 +27,7 @@
         "4": {
             "name": "Th\u00e9o",
             "surname": "GARCIA",
-            "elo": 1594,
+            "elo": 1596,
             "birthday": "26/10/1982",
             "gender": "M",
             "score": 0
@@ -57,7 +57,7 @@
             "score": 0
         },
         "8": {
-            "name": "Alice",
+            "name": "Anna",
             "surname": "LOPEZ",
             "elo": 1231,
             "birthday": "29/05/1979",
@@ -67,7 +67,7 @@
         "9": {
             "name": "Louis",
             "surname": "LAURENT",
-            "elo": 1190,
+            "elo": 1191,
             "birthday": "26/05/1993",
             "gender": "M",
             "score": 0
@@ -81,7 +81,7 @@
             "score": 0
         },
         "11": {
-            "name": "Ethan",
+            "name": "Paul",
             "surname": "CLEMENT",
             "elo": 1422,
             "birthday": "13/08/1975",
@@ -115,7 +115,7 @@
         "15": {
             "name": "Gabin",
             "surname": "HENRY",
-            "elo": 1270,
+            "elo": 1271,
             "birthday": "22/06/1992",
             "gender": "M",
             "score": 0
