@@ -43,7 +43,13 @@ Une connexion internet n'est pas requise.
 
     **Ces actions seront à effectuer avant chaque lancement de l'application.**
 
-2. **Lancer l'application**
+2. **Installer le fichier requirements.txt**
+
+    Entrer la commande suivante depuis le dossier de l'application :
+
+    `pip install -r requirements.txt`
+
+3. **Lancer l'application**
 
     Depuis la console, entrer la commande suivante :
 
